@@ -15,6 +15,16 @@ app.use(cors({credentials:true, origin:'http://localhost:3000'}));
 app.use(express.json());
 app.use(cookieParser());
 
+//trial to fix chrome
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // replace with the address of your frontend
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, X-Requested-With');
+    next();
+  });
+  
+
 //connection
 mongoose.connect("mongodb://127.0.0.1:27017/register",
     {
@@ -59,13 +69,13 @@ app.post('/login', async(req,res)=>{
 
 app.get('/profile', (req,res) =>{
     const {token} = req.cookies;
-    jwt.verify(token, secret, {}, (err, info) => {
+    jwt.verify(token, secSalt, {}, (err, info) => {
         if(err) throw err;
         res.json(info);
-    })
+    });
 });
-
-app.post('/logout', (req,res) =>{
+ // logout 
+app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok');
 });
 

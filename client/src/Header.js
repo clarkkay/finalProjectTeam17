@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+
 
 export default function Header() {
     const[username, setUsername] = useState(null);
@@ -18,6 +19,7 @@ export default function Header() {
             credentials: 'include',
             method: 'POST'
     })
+    setUsername(null);
     }
     
     return (
