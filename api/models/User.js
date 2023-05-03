@@ -8,5 +8,5 @@ const UserSchema = new Schema({
     collection: "users"
 });
 
-const UserModel = model('User', UserSchema);
+const UserModel = model('users', UserSchema);
 module.exports = UserModel;

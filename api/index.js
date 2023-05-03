@@ -2,14 +2,14 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
-const User = require('./models/User')
+const user = require('./models/User')
 const port = process.env.PORT || 4000;
 const host = "localhost";
 
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/finalProject",
+mongoose.connect("mongodb://127.0.0.1:27017/register",
     {
         dbName: "finalProject",
         useNewUrlParser: true,
@@ -19,9 +19,19 @@ mongoose.connect("mongodb://localhost:27017/finalProject",
 
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
-    const userDoc = await User.create({ username, password })
-    res.json(userDoc);
-})
+    const formData = new user({
+        username, password 
+    })
+    try {
+    await user.create(formData);
+    const messageResponse = { message: `User ${username} added correctly` };
+    res.send(JSON.stringify(messageResponse));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Unable to create user' });
+    }
+  });
+  
 app.listen(port, () => {
     console.log(`App listening at http://%s:%s`, host, port);
 });
