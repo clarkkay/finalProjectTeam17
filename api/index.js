@@ -2,28 +2,33 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
-const user = require('./models/User')
+const user = require('./models/User');
+const post = require('./models/Post');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/' })
+const fs = require('fs');
 const port = process.env.PORT || 4000;
 const host = "localhost";
 const salt = bcrypt.genSaltSync(10);
 const secSalt = 'djsiaodnduqwip938';
 
-app.use(cors({credentials:true, origin:'http://localhost:3000'}));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname+ '/uploads'));
 
 //trial to fix chrome
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // replace with the address of your frontend
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization, X-Requested-With');
     next();
-  });
-  
+});
+
 
 //connection
 mongoose.connect("mongodb://127.0.0.1:27017/register",
@@ -38,28 +43,28 @@ mongoose.connect("mongodb://127.0.0.1:27017/register",
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
     const formData = new user({
-        username, password: bcrypt.hashSync(password, salt), 
+        username, password: bcrypt.hashSync(password, salt),
     })
     try {
-    await user.create(formData);
-    const messageResponse = { message: `User ${username} added correctly` };
-    res.send(JSON.stringify(messageResponse));
+        await user.create(formData);
+        const messageResponse = { message: `User ${username} added correctly` };
+        res.send(JSON.stringify(messageResponse));
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Unable to create user' });
+        console.error(error);
+        res.status(500).json({ error: 'Unable to create user' });
     }
-  });
+});
 
-  //login
-app.post('/login', async(req,res)=>{
-    const{username, password} = req.body;
-    const userDoc = await user.findOne({username});
+//login
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const userDoc = await user.findOne({ username });
     const passOk = bcrypt.compareSync(password, userDoc.password);
     //creating a token
-    if(passOk){
+    if (passOk) {
         //logged in 
-        jwt.sign({username, id:userDoc._id}, secSalt, {}, (err, token) => {
-            if(err) throw err;
+        jwt.sign({ username, id: userDoc._id }, secSalt, {}, (err, token) => {
+            if (err) throw err;
             res.cookie('token', token).json({
                 id: userDoc._id,
                 username,
@@ -70,19 +75,52 @@ app.post('/login', async(req,res)=>{
     }
 });
 
-app.get('/profile', (req,res) =>{
-    const {token} = req.cookies;
+app.get('/profile', (req, res) => {
+    const { token } = req.cookies;
     jwt.verify(token, secSalt, {}, (err, info) => {
-        if(err) throw err;
+        if (err) throw err;
         res.json(info);
     });
 });
- // logout 
+// logout 
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok');
 });
+//create post
+app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+    //uploading file and renaming file
+    const { originalname, path } = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext
+    fs.renameSync(path, newPath);
 
+    const { token } = req.cookies;
+    jwt.verify(token, secSalt, {}, async (err, info) => {
+        if (err) throw err;
+        const { title, summary, content } = req.body;
+        const postDoc = await post.create({
+            title,
+            summary,
+            content,
+            cover: newPath,
+            author: info.id,
+        });
+        res.json(postDoc);
+    });
+});
+
+//posting the posts
+app.get('/post', async (req, res) => {
+    res.json(
+        await post.find()
+        .populate('author', ['username'])
+        .sort({createdAt: -1})
+        .limit(35)
+        );
+});
+
+//listen
 app.listen(port, () => {
     console.log(`App listening at http://%s:%s`, host, port);
 });
-// mongodb://localhost:27017
