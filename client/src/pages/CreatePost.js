@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Editor from "./Editor";
 
-
 export default function CreatePost() {
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
@@ -20,17 +19,21 @@ export default function CreatePost() {
         const response = await fetch('http://localhost:4000/post', {
             method: 'POST',
             body: data,
-            credentials: 'include',
-
+           // credentials: 'include'
         });
         if(response.ok){
+            console.log(
+                "response ok!"
+            )
             setRedirect(true);
+        } else {
+            console.log("not ok :(")
         }
     }
 
     //Go back to homepage
     if(redirect){
-        return  <Navigate to={'/'} />
+        return <Navigate to={'/'} />
     }
 
     return (

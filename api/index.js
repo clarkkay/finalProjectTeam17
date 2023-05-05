@@ -94,7 +94,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
     const ext = parts[parts.length - 1];
     const newPath = path + '.' + ext
     fs.renameSync(path, newPath);
-
+    
     const { token } = req.cookies;
     jwt.verify(token, secSalt, {}, async (err, info) => {
         if (err) throw err;
@@ -162,6 +162,36 @@ app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
     });
 });
 
+//delete a single post 
+app.delete('/post/:id', async (req, res) => {
+    const { id } = req.params;
+    const { token } = req.cookies;
+  
+    jwt.verify(token, secSalt, {}, async (err, info) => {
+      if (err) throw err;
+  
+      const postDoc = await post.findById(id);
+      if (!postDoc) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+      if (!isAuthor) {
+        return res.status(403).json({ error: 'You are not authorized to delete this post' });
+      }
+  
+      try {
+        // delete the post and remove its cover image from the file system
+        await postDoc.deleteOne();
+        fs.unlinkSync(postDoc.cover);
+        res.json({ message: 'Post deleted successfully' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Unable to delete post' });
+      }
+    });
+  });
+  
 //listen
 app.listen(port, () => {
     console.log(`App listening at http://%s:%s`, host, port);

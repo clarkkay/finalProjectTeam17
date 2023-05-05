@@ -22,6 +22,7 @@ export default function LoginPage(){
             });
         } else {
             alert('wrong credentials');
+            setRedirect(true);
         }
     }
     if(redirect){
