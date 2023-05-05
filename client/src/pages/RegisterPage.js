@@ -5,7 +5,6 @@ export default function RegisterPage() {
 
     async function register(ev) {
         ev.preventDefault();
-
         const response = await fetch('http://localhost:4000/register', {
             method: 'POST',
             body: JSON.stringify({ username, password }),
@@ -20,7 +19,7 @@ export default function RegisterPage() {
 
     return (
         <div>
-            <form className="register" onSubmit={register}>
+            <form class ="register" onSubmit={register}>
                 <h1>Register</h1>
                 <input type="text"
                     placeholder="username"

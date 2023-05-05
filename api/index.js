@@ -19,7 +19,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+ '/uploads'));
-
+//2:38:41
 //trial to fix chrome
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // replace with the address of your frontend
@@ -118,6 +118,48 @@ app.get('/post', async (req, res) => {
         .sort({createdAt: -1})
         .limit(35)
         );
+});
+
+//single post
+app.get('/post/:id', async (req ,res) => {
+    const {id} = req.params;
+    const postDoc = await post.findById(id).populate('author', ['username']);
+    res.json(postDoc);
+})
+
+//edit the post 
+app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
+    let newPath = null;
+    if(req.file){
+        const { originalname, path } = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        const newPath = path + '.' + ext
+        fs.renameSync(path, newPath);    
+    }
+    const {token} = req.cookies;
+    jwt.verify(token, secSalt, {}, async (err, info) => {
+        if (err) throw err;
+        
+        const { id, title, summary, content } = req.body;
+        const filter = { _id: id, author: info.id };
+        const postDoc = await post.findById(id)
+        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+        if(!isAuthor) {
+            res.status(400).json(
+                'you are not the author'
+            )
+        }
+        const update = {
+            title, 
+            summary, 
+            content,
+            cover: newPath ? newPath: postDoc.cover,
+        };
+        const updatedPost = await post.findOneAndUpdate(filter, update , { new: true })
+        
+        res.json(postDoc);
+    });
 });
 
 //listen
