@@ -63,14 +63,18 @@ async function deletePost(ev){
     }
 
     return (
-        <form onSubmit={updatePost}>
-            <input type="title" placeholder="Title" value={title} onChange={ev => setTitle(ev.target.value)} />
-            <input type="summary" placeholder="Summary" value={summary} onChange={ev => setSummary(ev.target.value)} />
-            <input type="file" onChange={ev => setFiles(ev.target.files)} />
-            <Editor onChange= {setContent} value={content} />
-            <button style={{ marginTop: '5px' }}>Update post</button>
-            <button style={{ marginTop: '5px' }} onClick={deletePost}>Delete post</button>
-        </form>
-    
+        <div>
+            <form class="create-post" onSubmit={updatePost}>
+                <h1>Edit Post</h1>
+                <input type="title" placeholder="Title" value={title} onChange={ev => setTitle(ev.target.value)} />
+                <input type="summary" placeholder="Summary" value={summary} onChange={ev => setSummary(ev.target.value)} />
+                <input id="file" type="file" onChange={ev => setFiles(ev.target.files)} />
+                <div id="content">
+                    <Editor onChange= {setContent} value={content} />
+                </div>
+                <button id="content" style={{ marginTop: '5px' }}>Update post</button>
+                <button id="content" style={{ marginTop: '5px' }} onClick={deletePost}>Delete post</button>
+            </form>
+        </div>
     );
 }

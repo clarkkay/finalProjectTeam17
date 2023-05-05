@@ -26,20 +26,20 @@ export default function Header() {
 
     return (
         <header>
-            <Link to="/" className="logo">Final Project 17</Link>
+            <Link id="title" to="/" className="logo">cyBlog</Link>
             <nav>
                 {username && (
                     <>
-                    <Link to="/create">Create New Post</Link>
-                    <a onClick={logout}>Logout</a>
-                    <Link to="/aboutus">About Us</Link>
+                    <Link class="links" to="/create">Create New Post</Link>
+                    <a class="links" onClick={logout}>Logout</a>
+                    <Link class="links" to="/aboutus">About Us</Link>
                     </>
                 )}
                 {!username && (
                     <>
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Register</Link>
-                    <Link to="/aboutus">About Us</Link>
+                    <Link class="links" to="/login">Login</Link>
+                    <Link class="links" to="/register">Register</Link>
+                    <Link class="links" to="/aboutus">About Us</Link>
                 </>
                 )}
             </nav>

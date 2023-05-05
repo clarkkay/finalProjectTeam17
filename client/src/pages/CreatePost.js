@@ -37,12 +37,17 @@ export default function CreatePost() {
     }
 
     return (
-        <form onSubmit={createNewPost}>
-            <input type="title" placeholder="Title" value={title} onChange={ev => setTitle(ev.target.value)} />
-            <input type="summary" placeholder="Summary" value={summary} onChange={ev => setSummary(ev.target.value)} />
-            <input type="file" onChange={ev => setFiles(ev.target.files)} />
-            <Editor onChange= {setContent} value={content} />
-            <button style={{ marginTop: '5px' }}>Create post</button>
-        </form>
+        <div>        
+            <form onSubmit={createNewPost} class="create-post">
+                <h1>Create Post</h1>
+                <input type="title" placeholder="Title" value={title} onChange={ev => setTitle(ev.target.value)} />
+                <input type="summary" placeholder="Summary" value={summary} onChange={ev => setSummary(ev.target.value)} />
+                <input type="file" onChange={ev => setFiles(ev.target.files)} />
+                <div id="content">
+                <Editor  onChange= {setContent} value={content} />
+                </div>
+                <button id="content" style={{ marginTop: '5px' }}>Create post</button>
+            </form>
+        </div>
     );
 };

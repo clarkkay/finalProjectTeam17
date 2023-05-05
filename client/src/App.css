@@ -2,15 +2,25 @@
   box-sizing: border-box;
 }
 body{
-  color: #333;
+  /* color: #333; */
+  background-image: url("https://i.ibb.co/zS9rbWF/output-onlineimagetools-1.png");
+  background-attachment: fixed;
+  background-size: 100%;
+
+
+  
+  
+  /* filter: blur(8px); */
 }
 img{
   max-width: 100%;
+  box-shadow: 2px 4px 8px 2px rgba(0,0,0,0.2);
 }
 main{
   padding: 10px;
   max-width: 960px;
   margin: 0 auto;
+  
 }
 header{
   display:flex;
@@ -19,6 +29,7 @@ header{
   margin-bottom: 50px;
   align-items: center;
 }
+
 header a{
   text-decoration: none;
   color: inherit;
@@ -41,13 +52,26 @@ div.post{
 @media screen and (min-width: 600px) {
   div.post{
       grid-template-columns: 0.9fr 1.1fr;
-
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
   }
+  div.post:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+}
+div.card{
+  padding: 20px 20px 20px 20px;
+  background-color: rgb(225, 225, 225);
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  z-index: 2;
 }
 
 div.post div.texts h2{
   margin:0;
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 div.post div.texts a{
   text-decoration:none;
@@ -55,22 +79,53 @@ div.post div.texts a{
 }
 div.post p.info{
   margin:6px 0;
-  color: #888;
-  font-size:0.7rem;
+  color: rgb(255, 255, 255);
+  font-size:.85rem;
   font-weight: bold;
   display: flex;
   gap: 10px;
+  font-weight: lighter;
 }
 div.post p.info a.author{
-  color:#333;
+  color:rgb(255, 255, 255);
 }
 div.post p.summary{
   margin: 10px 0;
-  line-height:  1.4rem;
+  line-height:  1.8rem;
+  font-size: larger;
+  font-weight: lighter;
+  /* font-weight: bold; */
 }
-form.login, form.register{
+form.create-post {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+form.login, form.register {
   max-width: 400px;
   margin: 0 auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
 }
 input{
   display: block;
@@ -94,8 +149,9 @@ button{
 form.login h1, form.register h1{
   text-align: center;
 }
+
 div.post-page div.image{
-  max-height:200px;
+  max-height: 200px;
   display: flex;
   overflow:hidden;
 }
@@ -116,7 +172,7 @@ div.post-page time{
   text-align: center;
   display:block;
   font-size: 0.7rem;
-  color:#aaa;
+  color:rgb(255, 255, 255);
 }
 div.post-page div.author{
   text-align: center;
@@ -140,3 +196,58 @@ div.post-page a.edit-btn{
   border-radius: 5px;
   text-decoration: none;
 }
+
+.links {
+  color: goldenrod;
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 1px #000000;
+  /* border: 2px solid rgb(195, 41, 41); */
+  /* border-radius: 10px; */
+  /* text-shadow: 1px 1px 1px #000000; */
+}
+.links:hover {
+  color: rgb(195, 41, 41);
+  font-size: 152%;
+}
+
+#title {
+  /* Add shadow behind the text */
+  text-shadow: 1px 1px 1px #000000;
+  color: goldenrod;
+  font-size: 2.5rem;
+}
+
+/* root { */
+  /* background-color: #000000; */
+/* } */ 
+.background {
+  background-color: red;
+}
+
+#content {
+  background-color: white;
+  color: black;
+}
+#file {
+  color: black;
+}
+
+/* .class-page { */
+  /* color: white; */
+/* } */
+div.post-page {
+  color: white;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  border: 3px solid #f1f1f1;
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  
+}
+
+/* div.post-page image { */
+  /* max-height: ; */
+/* } */
