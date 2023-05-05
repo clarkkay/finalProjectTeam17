@@ -11,6 +11,7 @@ export default function EditPost() {
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const [newRedirect, setNewRedirect] = useState(false);
 
     useEffect(() => {
         fetch('http://127.0.0.1:4000/post/' + id).then(response => {
@@ -48,7 +49,7 @@ async function deletePost(ev){
         credentials: "include",
     })
     if(response.ok) {
-        setRedirect(true);
+        setNewRedirect(true);
     }
 }
 
@@ -57,7 +58,9 @@ async function deletePost(ev){
         return <Navigate to={'/post/' + id} />
     }
 
-
+    if (newRedirect){
+        return <Navigate to={'/'} />
+    }
 
     return (
         <form onSubmit={updatePost}>
