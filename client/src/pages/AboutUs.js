@@ -2,6 +2,7 @@ import About from "../About";
 import Kayley from "../images/LinkedINPhoto_2_6_2023.jpg";
 import Manas from "../images/Manas Mathur.jpg";
 import Melani from "../images/melani.jpg";
+import Computer from "../images/college_computer.jpg";
 
 const aboutus = [
     {
@@ -23,7 +24,7 @@ const aboutus = [
         "name": "Melani Hodge",
         "college": "Software Engineering Major",
         "email": "mhodge12@iastate.edu",
-        "description": "Hello my name is Melani Hodge, I am currently studying Software Engineering at Iowa State University. When I came to Iowa State, I was undecided engineering. With both my dad and brother working in technolody, I was familiar with the field and was unimpressed. My intro to engineering class freshmen year changed that. In that class, I was introduced to VBA. Since then, I have learned Python, Java, JavaScript, React, RTL, and more. With technology, the field is always changing, and the opportunities are endless. COM S 319 has introduced me to combining the languages into making a functioning webpage like this one.",
+        "description": "Hello my name is Melani Hodge, I am currently studying Software Engineering at Iowa State University. When I came to Iowa State, I was undecided engineering. With both my dad and brother working in technology, I was familiar with the field and was unimpressed. My intro to engineering class freshmen year changed that. In that class, I was introduced to VBA. Since then, I have learned Python, Java, JavaScript, React, RTL, and more. With technology, the field is always changing, and the opportunities are endless. COM S 319 has introduced me to combining the languages into making a functioning webpage like this one.",
         "image": Melani 
     }
 ]
@@ -31,6 +32,7 @@ const aboutus = [
 export default function AboutUs(){
     return (
         <>
+            <About name="SE/ComS 319 Construction of User Interfaces, Spring 2023" college="Dated: May 6th, 2023" email="aaldaco@iastate.edu" description="Professor: Dr. Abraham N. Aldaco Gastelum, email linked above." image={Computer} />
             <About name={aboutus[0].name} college={aboutus[0].college} email={aboutus[0].email} description={aboutus[0].description} image={aboutus[0].image} />
             <About name={aboutus[1].name} college={aboutus[1].college} email={aboutus[1].email} description={aboutus[1].description} image={aboutus[1].image}/>
             <About name={aboutus[2].name} college={aboutus[2].college} email={aboutus[2].email} description={aboutus[2].description} image={aboutus[2].image} />

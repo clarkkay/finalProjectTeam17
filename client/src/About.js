@@ -1,8 +1,8 @@
 export default function About(props){
     return (
-        <div className="post card">
+      <div className="post card">
           <div className="image">
-          <img src={props.image || "https://images.unsplash.com/photo-1682692290240-ac21cb19b0eb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=900&q=60"} alt="About Me"></img>
+            <img src={props.image || "https://images.unsplash.com/photo-1682692290240-ac21cb19b0eb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=900&q=60"} alt="About Me"></img>
           </div>
           <div  className="text">
             <h2>{props.name || "John Doe"}</h2>

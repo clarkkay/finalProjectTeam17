@@ -18,19 +18,21 @@ export default function PostPage() {
     }, [])
     if (!postInfo) return '';
     return (
-        <div class="post-page">
-            <h1>{postInfo.title}</h1>
-            <time>{format(new Date(postInfo.createdAt), 'MMM d, yyyy HH:mm')}</time>
-            <div className="author">by @{postInfo.author.username}</div>
-            {userInfo.id === postInfo.author._id && (
-                <div class="edit-row">
-                    <Link class="edit-btn" to={'/edit/' + postInfo._id}>Edit</Link>
+        <div class="spacing">
+            <div class="post-page">
+                <h1>{postInfo.title}</h1>
+                <time>{format(new Date(postInfo.createdAt), 'MMM d, yyyy HH:mm')}</time>
+                <div className="author">by @{postInfo.author.username}</div>
+                {userInfo.id === postInfo.author._id && (
+                    <div class="edit-row">
+                        <Link class="edit-btn" to={'/edit/' + postInfo._id}>Edit</Link>
+                    </div>
+                )}
+                <div class="image">
+                    <img src={'http://localhost:4000/' + postInfo.cover} alt="" />
                 </div>
-            )}
-            <div class="image">
-                <img src={'http://localhost:4000/' + postInfo.cover} alt="" />
+                <div class="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
             </div>
-            <div class="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
         </div>
     );
 }
